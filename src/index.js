@@ -1,11 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './components/app/App';
+import React, {createContext} from 'react';
+//import {StrictMode} from 'react';
+import {createRoot} from 'react-dom/client';
+import App from './app';
+import Store from './store/store';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const store = new Store();
+export const Context = createContext({
+  store,
+});
+const root = createRoot(
+  document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+
+  <Context.Provider value={
+    {store}
+  }
+  >
     <App />
-  </React.StrictMode>
+  </Context.Provider>
+
+  ,
 );
