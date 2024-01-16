@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import axios from 'axios';
-import {API_URL} from '../http/index';
+import $api, {API_URL} from '../http/index';
 import AuthService from '../services/AuthService';
 
-const auth = new AuthService();
-
+//const auth = new AuthService();
+console.log($api);
 export default class Store {
     user = {};
 
@@ -25,8 +25,7 @@ export default class Store {
     async login(dataUser) {
       try {
         const {email, password} = {dataUser};
-        console.log(auth.login);
-        const response = await auth.login(email, password);
+        const response = await AuthService.login(email, password);
         localStorage.setItem('token', response.data.token);
         this.setAuth(true);
         this.setUser(dataUser);

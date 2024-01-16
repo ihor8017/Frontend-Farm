@@ -1,5 +1,5 @@
 import React, {createContext} from 'react';
-import {StrictMode} from 'react';
+//import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './app';
 import Store from './store/store';
@@ -11,13 +11,13 @@ export const Context = createContext({
 const root = createRoot(
   document.getElementById('root'));
 root.render(
-  <StrictMode>
-    <Context.Provider value={
-      {store}
-    }
-    >
-      <App />
-    </Context.Provider>
 
-  </StrictMode>,
+  <Context.Provider value={
+    {store}
+  }
+  >
+    <App />
+  </Context.Provider>
+
+  ,
 );
