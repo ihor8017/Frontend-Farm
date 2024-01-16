@@ -1,5 +1,10 @@
 import axios from 'axios';
-const API_URL = 'http://sasha2235-001-site1.ftempurl.com/api';
+export const API_URL = 'http://sasha2235-001-site1.ftempurl.com/api';
+
+export const Method = {
+  POST: 'POST',
+  PUT: 'PUT',
+};
 
 const $api = axios.create({
   withCredentials: true,
@@ -11,4 +16,4 @@ $api.interceptors.request.use( (config) => {
   return config;
 });
 
-export default $api;
+

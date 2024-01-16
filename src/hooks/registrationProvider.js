@@ -2,52 +2,24 @@ import {useContext, createContext, useState} from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AuthContext = createContext();
+const RegistrContext = createContext();
 
-function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('site') || '');
+function RegistrProvider({ children }) {
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
-  const loginAction = async (data) => {
-    console.log('data', data);
-    try {
-      const response = await fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.data) {
-        setUser(res.data.user);
-        setToken(res.token);
-        localStorage.setItem('site', res.token);
-        navigate('/success');
-        return;
-      }
-      throw new Error(res.message);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const logOut = () => {
-    setUser(null);
-    setToken('');
-    localStorage.removeItem('site');
-    navigate('/login');
+  const registerAction = () => {
+    navigate('/success');
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, loginAction, logOut }}>
+    <RegistrContext.Provider  value ={token}>
       {children}
-    </AuthContext.Provider>
+    </RegistrContext.Provider>
   );
 
 }
 
 
-export default AuthProvider;
+export default RegistrProvider;
 
-export const useAuth = () => useContext(AuthContext);
+export const useRegistr = () => useContext(RegistrContext);

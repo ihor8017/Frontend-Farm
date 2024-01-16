@@ -1,20 +1,32 @@
-import $api from '../http/index';
+import {API_URL, Method} from '../http/index';
 import {AxiosResponse} from 'axios';
 
-export default class AuthService {
-  async login(email, password) {
-    return $api.put('/Auth/Login', {email, password});
-  }
+export const  AuthService = {
+  login (data) {
+    return fetch(`${API_URL}/Auth/Login`,{
+      method: Method.PUT,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  },
 
-  async registration(email, password) {
-    return $api.post('/registration', {email, password});
-  }
+  registration(data) {
+    return fetch(`${API_URL}/Auth/Register`,{
+      method: Method.POST,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  },
 
-  async resetPassword(email, password) {
+  resetPassword(email, password) {
     return $api.put('/reset', {email, password});
-  }
+  },
 
-  async logout(email, password) {
+  logout(email, password) {
     return $api.post('/', {email, password});
-  }
-}
+  },
+};

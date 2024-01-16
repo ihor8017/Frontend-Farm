@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../hooks/AuthProvider';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useRegistr } from '../../hooks/registrationProvider';
+import { NavLink } from 'react-router-dom';
+import { Context } from '../..';
 
-export function Register() {
+export function Registration() {
   const [input, setInput] = useState({
     'name': '',
     'surname': '',
@@ -11,12 +12,15 @@ export function Register() {
     'confirmPassword': '',
     'role': 0,
   });
-
-  const regist = useAuth();
+  const {store} = useContext(Context);
+  const regist = useRegistr();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.email !== '' && input.password !== '' && input.surname !== '' && input.confirmPassword !== '' && input.name !== '') {
-      regist.loginAction(input);
+      store.register(input);
+      if (store.isAuth) {
+        regist.registerAction();
+      }
     }
   };
   const handleInput = (e) => {
@@ -31,7 +35,7 @@ export function Register() {
     <div className="auth-form-container">
       <h2>Sign up</h2>
       <p>Уже маєте обліковий запис?</p>
-      <Link className="link-btn" path='/login'>Увійдіть</Link>
+      <NavLink className="link-btn" path='/login'>Увійдіть</NavLink>
 
       <form className="register-form" onSubmit={handleSubmit}>
         <label htmlFor="buyer">Покупець</label>
