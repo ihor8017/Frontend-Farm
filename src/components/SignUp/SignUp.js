@@ -5,18 +5,19 @@ import { Context } from '../..';
 
 export function Registration() {
   const [input, setInput] = useState({
-    'name': '',
-    'surname': '',
-    'email': '',
-    'password': '',
-    'confirmPassword': '',
-    'role': 0,
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 0,
   });
   const {store} = useContext(Context);
   const regist = useRegistr();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.email !== '' && input.password !== '' && input.surname !== '' && input.confirmPassword !== '' && input.name !== '') {
+      console.log(input);
       store.register(input);
       if (store.isAuth) {
         regist.registerAction();
@@ -38,19 +39,19 @@ export function Registration() {
       <NavLink className="link-btn" path='/login'>Увійдіть</NavLink>
 
       <form className="register-form" onSubmit={handleSubmit}>
-        <label htmlFor="buyer">Покупець</label>
-        <input type="radio" id="buyer" name="role" value="0" checked />
+        {/* <label htmlFor="buyer">Покупець</label>
+        <input type="radio" id="buyer" name="role" value="0" defaultChecked />
         <label htmlFor="seller">Продавець</label>
         <input type="radio" id="seller" name="role" value="1" />
         <label htmlFor="farmer">Фермер</label>
-        <input type="radio" id="farmer" name="role" value="2" />
+        <input type="radio" id="farmer" name="role" value="2" /> */}
 
 
         <label htmlFor="email">email</label>
-        <input  onChange={handleInput} type="email" placeholder="youremail@gmail.com" id="email" name="e-mail" />
+        <input  onChange={handleInput} type="email" placeholder="youremail@gmail.com" id="email" name="email" />
 
         <label htmlFor="lastName">Full name</label>
-        <input  name="lastName" onChange={handleInput} id="lastName" placeholder="Прізвище" />
+        <input  name="surname" onChange={handleInput} id="lastName" placeholder="Прізвище" />
         <label htmlFor="name">Full name</label>
         <input  name="name" onChange={handleInput} id="name" placeholder="Ім’я" />
 

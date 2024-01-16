@@ -22,11 +22,23 @@ export const  AuthService = {
     });
   },
 
-  resetPassword(email, password) {
-    return $api.put('/reset', {email, password});
+  resetPassword(data) {
+    return fetch(`${API_URL}/Auth/Register`,{
+      method: Method.POST,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
   },
 
-  logout(email, password) {
-    return $api.post('/', {email, password});
+  logout(data) {
+    return fetch(`${API_URL}/Auth/Register`,{
+      method: Method.POST,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
   },
 };
