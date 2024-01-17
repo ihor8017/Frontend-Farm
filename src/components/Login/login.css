@@ -1,0 +1,11 @@
+.auth-form-container {
+    width: 400px;
+    border: 1px solid red;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.auth-form-container form {
+    display: flex;
+    flex-direction: column;
+}
