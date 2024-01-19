@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import {AuthService} from '../services/AuthService';
+import AuthService from '../services/AuthService';
+import {$api, API_URL} from '../http/index';
 
 export default class Store {
     user = {};
@@ -20,7 +21,14 @@ export default class Store {
 
     async login(dataUser) {
       try {
-        const response = await AuthService.login(dataUser).json();
+        console.log(dataUser);
+        const response = await $api.put('/Auth/Login',
+          dataUser,
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          },
+        );
         if (response.data){
           localStorage.setItem('token', response.data.token);
           this.setAuth(true);
@@ -34,9 +42,13 @@ export default class Store {
 
     async register(dataUser) {
       try {
-        console.log(dataUser);
-        const response = await AuthService.registration(dataUser).json();
-        localStorage.setItem('token', response.data.accessToken);
+        await  $api.post('/Auth/Register',
+          JSON.stringify(dataUser),
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          },
+        );
         this.setAuth(true);
         this.setUser(dataUser);
       } catch (e) {
@@ -46,7 +58,7 @@ export default class Store {
 
     async logout() {
       try {
-        const response = await AuthService.logout();
+        await logout();
         localStorage.removeItem('token');
         this.setAuth(true);
         this.setUser(null);

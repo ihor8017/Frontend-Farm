@@ -1,44 +1,26 @@
-import {API_URL, Method} from '../http/index';
-import {AxiosResponse} from 'axios';
+import {$api, API_URL} from '../http/index';
 
-export const  AuthService = {
-  login (data) {
-    return fetch(`${API_URL}/Auth/Login`,{
-      method: Method.PUT,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-  },
 
-  registration(data) {
-    return fetch(`${API_URL}/Auth/Register`,{
-      method: Method.POST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-  },
+export default class AuthService {
+  async login (data) {
+    return $api.put('/Auth/Login', data);
+  }
 
-  resetPassword(data) {
-    return fetch(`${API_URL}/Auth/Register`,{
-      method: Method.POST,
-      headers: {
-        'Content-Type': 'application/json',
+  async registration(data) {
+    return $api.post('/Auth/Register',
+      JSON.stringify({ data }),
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
       },
-      body: JSON.stringify(data),
-    });
-  },
+    );
+  }
 
-  logout(data) {
-    return fetch(`${API_URL}/Auth/Register`,{
-      method: Method.POST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-  },
-};
+  //   function resetPassword(data) {
+  //     return $api.post('/Auth/Reset', data);
+  //   }
+
+//   function logout() {
+//     return $api.put('/logout');
+//   }
+}
