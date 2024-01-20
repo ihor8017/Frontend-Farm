@@ -1,26 +1,33 @@
 import {$api, API_URL} from '../http/index';
 
 
-export default class AuthService {
-  async login (data) {
-    return $api.put('/Auth/Login', data);
-  }
-
-  async registration(data) {
-    return $api.post('/Auth/Register',
-      JSON.stringify({ data }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
+export const   AuthService = {
+  login  (data)  {
+    return  fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Login', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
-  }
+      body: JSON.stringify(data),
+    });
+  },
 
-  //   function resetPassword(data) {
-  //     return $api.post('/Auth/Reset', data);
-  //   }
-
-//   function logout() {
-//     return $api.put('/logout');
-//   }
-}
+  registration(data) {
+    return fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  },
+  emailConfirmation  (token)  {
+    return  fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/ConfirmEmail', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      params: { token },
+    });
+  },
+};

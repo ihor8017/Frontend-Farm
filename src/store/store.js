@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import AuthService from '../services/AuthService';
+import{ AuthService} from '../services/AuthService';
 import {$api, API_URL} from '../http/index';
 
 export default class Store {
@@ -21,15 +21,8 @@ export default class Store {
 
     async login(dataUser) {
       try {
-        console.log(dataUser);
-        const response = await $api.put('/Auth/Login',
-          dataUser,
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-          },
-        );
-        if (response.data){
+        const response = await AuthService.login(dataUser);
+        if (response.ok){
           localStorage.setItem('token', response.data.token);
           this.setAuth(true);
           this.setUser(dataUser);
@@ -42,15 +35,18 @@ export default class Store {
 
     async register(dataUser) {
       try {
-        await  $api.post('/Auth/Register',
-          JSON.stringify(dataUser),
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-          },
-        );
+        const response = await AuthService.registration(dataUser);
+        console.log('Email sent successfully!', response.status);
         this.setAuth(true);
-        this.setUser(dataUser);
+      } catch (e) {
+        console.log('error');
+      }
+    }
+
+    async emailConfirm(dataUser) {
+      try {
+        const response = await AuthService.emailConfirm(dataUser);
+        console.log('emailConfirm', response.status);
       } catch (e) {
         console.log('error');
       }
