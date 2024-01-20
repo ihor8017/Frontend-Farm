@@ -1,10 +1,10 @@
-import {API_URL, Method} from '../http/index';
-import {AxiosResponse} from 'axios';
+import {$api, API_URL} from '../http/index';
 
-export const  AuthService = {
-  login (data) {
-    return fetch(`${API_URL}/Auth/Login`,{
-      method: Method.PUT,
+
+export const   AuthService = {
+  login (data)  {
+    return  fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Login', {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -12,33 +12,21 @@ export const  AuthService = {
     });
   },
 
-  registration(data) {
-    return fetch(`${API_URL}/Auth/Register`,{
-      method: Method.POST,
+  registration (data) {
+    return fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Register', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
   },
-
-  resetPassword(data) {
-    return fetch(`${API_URL}/Auth/Register`,{
-      method: Method.POST,
+  emailConfirmation (token)  {
+    return  fetch(`http://sasha2235-001-site1.ftempurl.com/api/Auth/ConfirmEmail/${token}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
-    });
-  },
-
-  logout(data) {
-    return fetch(`${API_URL}/Auth/Register`,{
-      method: Method.POST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
     });
   },
 };
