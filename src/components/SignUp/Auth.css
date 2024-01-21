@@ -1,0 +1,244 @@
+/* @ --- Registration page */
+
+.auth-title {
+	height: 56px;
+	font-size: 16px;
+	line-height: 125%;
+	font-weight: 600; /* 20/16 */
+	display: grid;
+	place-items: center;
+	/* margin-bottom: 24px; */
+}
+.auth-form-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	translate: -50% 0%;
+	height: 56px;
+	background: transparent;
+}
+
+.auth-form-container {
+	width: 350px;
+	margin: 24px auto 0;
+}
+.auth-to-other-page {
+	text-align: center;
+	font-size: 16px;
+	line-height: 150%; /* 24/16 */
+	font-weight: 500;
+	margin-bottom: 24px;
+}
+.auth-to-other-page span {
+	color: #06c;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px;
+}
+.auth-to-other-page a:visited {
+	color: #06c;
+}
+
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.form-title {
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 140%;
+	margin-bottom: 24px; /* 33.6px */
+}
+
+/* @ --- Radio buttons */
+.form-radio {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 24px;
+}
+.radio-item {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+.radio-button {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	outline: none;
+	height: 24px;
+	width: 24px;
+	border: 1px solid #a5a8ba;
+	border-radius: 50%;
+}
+.radio-button:checked {
+	border: 8px solid #6168e4;
+}
+
+.radio-ladel {
+	color: #1f1f26;
+	font-size: 16px;
+	line-height: 125%; /* 20/16 */
+}
+
+/* @ --- Input fields */
+.form-article {
+	margin-bottom: 16px;
+	width: 95%;
+}
+.form-field {
+	position: relative;
+	/* display: flex;
+	flex-direction: column;
+align-items: end;
+justify-content: end; */
+	height: 40px;
+	border-radius: 8px;
+	border: 1px solid #a5a8ba;
+	transition: height 0.3s ease;
+}
+/* .form-field:focus-within,
+.form-field input.form-input-field:valid {
+    height: 52px;
+} */
+.form-field.correct-field {
+	border: 3px solid #6168e4;
+}
+.form-field.uncorrect-field {
+	border: 3px solid #e6674e;
+	margin-bottom: 4px;
+}
+
+.form-label {
+	position: absolute;
+	top: 8px;
+	left: 16px;
+	pointer-events: none;
+	color: #65697e;
+	font-size: 16px;
+	line-height: 125%; /* 20/16 */
+	transition: all 0.3s ease;
+	background: #fff;
+}
+.form-label span {
+	color: #f00;
+}
+.form-input-field {
+	height: 100%;
+	width: 100%;
+	outline: none;
+	padding: 10px 16px;
+	background: transparent;
+	color: #1f1f26;
+	font-size: 16px;
+	line-height: 125%; /* 20/16 */
+	/* height: 20px; */
+}
+
+
+.form-field :is(.form-input-field:focus, .form-input-field:valid):not(:placeholder-shown)~.form-label {
+	top: -6px;
+	font-size: 12px;
+	line-height: 100%; 	/* 12/12 */
+	padding: 0 5px;
+}
+/* .form-field:focus-within{
+	height: 52px;
+} */
+.field-error {
+	display: none;
+	color: red;
+}
+.form-field.uncorrect-field + .field-error {
+	display: block;
+}
+.form-password-description {
+	display: block;
+	width: 95%;
+	color: #2c2c2d;
+	font-size: 12px;
+	line-height: 150%; /* 18/12 */
+}
+
+.form-submit {
+	height: 40px;
+  width: 95%;
+	padding: 10px 48px;
+	margin-top: 16px;
+  margin-bottom: 16px;
+	border-radius: 8px;
+	background: #656565;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 125%; /* 20/16 */
+}
+
+/* @ --- Successful registration */
+.registration-successful {
+	/* margin-top: 180px; */
+	height: calc(100vh - 56px);
+	display: grid;
+	place-items: center;
+}
+.successful-conteiner {
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.succesfull-img {
+	margin-bottom: 24px;
+}
+.succesfull-img img {
+}
+.successfull-title {
+	color: #1f1f26;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 125%; /* 22.5/18 */
+	margin-bottom: 8px;
+}
+.successful-subtitle {
+	color: #65697e;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 150%; /* 24/16 */
+	margin-bottom: 32px;
+}
+.successful-link {
+	width: 100%;
+	padding: 14px;
+	border-radius: 8px;
+	border: 1px solid #656565;
+	background: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 8px;
+}
+.successful-link img {
+}
+.successful-link span {
+	color: #656565;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 125%; /* 20/16 */
+}
+
+/* @ --- Login page */
+.auth-logo{
+  margin-bottom: 16px;
+}
+.forgot-password {
+	align-self: end;
+	color: #06c;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 125%; /* 20/16 */
+  margin-bottom: 16px;
+}
