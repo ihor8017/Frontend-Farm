@@ -3,6 +3,8 @@ import React, {createContext} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './app';
 import Store from './store/store';
+import './normalize.css'
+import './index.css'
 
 
 const store = new Store();

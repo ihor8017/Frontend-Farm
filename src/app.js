@@ -11,22 +11,27 @@ import {observer} from 'mobx-react-lite';
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path="/registration" element={<Registration />} />
-            {/* <Route path="http://localhost:5173/#/ConfirmEmail/:token" element={<EmailVerificationSuccess />} /> */}
-            <Route path="/login" element={<Login />} />
-            <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
-            {/* Other routes */}
-          </Routes>
-        </AuthProvider>
-      </Router>
-    </div>
-  );
+		<div className='App'>
+			<Router>
+				<AuthProvider>
+					<Routes>
+
+						{/* Temporaly */}
+						{/* <Route path='/' element={<Registration />} /> */}
+						{/* ------- */}
+
+						<Route path='/registration' element={<Registration />} />
+						{/* <Route path="http://localhost:5173/#/ConfirmEmail/:token" element={<EmailVerificationSuccess />} /> */}
+						<Route path='/login' element={<Login />} />
+						<Route element={<PrivateRoute />}>
+							<Route path='/dashboard' element={<Dashboard />} />
+						</Route>
+						{/* Other routes */}
+					</Routes>
+				</AuthProvider>
+			</Router>
+		</div>
+	)
 }
 
 export default observer(App);
