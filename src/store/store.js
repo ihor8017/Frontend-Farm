@@ -45,7 +45,7 @@ export default class Store {
 
     async emailConfirm(token) {
       try {
-        const response = await AuthService.emailConfirm(token);
+        const response = await AuthService.emailConfirmation(token);
         console.log('emailConfirm', response.status);
         this.setAuth(true);
       } catch (e) {
