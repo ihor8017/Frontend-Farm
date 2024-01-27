@@ -6,32 +6,32 @@ import {Dashboard} from './components/Dashboard/Dashboard';
 import AuthProvider from './hooks/AuthProvider';
 import PrivateRoute from './router/route';
 import {observer} from 'mobx-react-lite';
-//import EmailVerificationSuccess from './components/SignUp/EmailConfirmation';
-
+import EmailVerification from './components/SignUp/EmailVerification';
+import Home from './pages/Home';
 
 function App() {
+
+
   return (
-		<div className='App'>
-			<Router>
-				<AuthProvider>
-					<Routes>
+    <div className="App">
+      <Router>
+        <AuthProvider>
+          <Routes>
+            <Route path='/' element={<Home />}  />
+            <Route path="/registration" element={<Registration />} />
 
-						{/* Temporaly */}
-						{/* <Route path='/' element={<Registration />} /> */}
-						{/* ------- */}
-
-						<Route path='/registration' element={<Registration />} />
-						{/* <Route path="http://localhost:5173/#/ConfirmEmail/:token" element={<EmailVerificationSuccess />} /> */}
-						<Route path='/login' element={<Login />} />
-						<Route element={<PrivateRoute />}>
-							<Route path='/dashboard' element={<Dashboard />} />
-						</Route>
-						{/* Other routes */}
-					</Routes>
-				</AuthProvider>
-			</Router>
-		</div>
-	)
+            <Route path="/login" element={<Login />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+            /* eslint-disable */
+            <Route path={'/ConfirmEmail/:token'}  element={<EmailVerification/>} />
+            {/* Other routes */}
+          </Routes>
+        </AuthProvider>
+      </Router>
+    </div>
+  );
 }
 
 export default observer(App);
