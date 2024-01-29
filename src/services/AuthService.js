@@ -6,7 +6,7 @@ export const   AuthService = {
     return  fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Login', {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/json',
       },
       body: JSON.stringify(data),
     });
@@ -21,12 +21,11 @@ export const   AuthService = {
       body: JSON.stringify(data),
     });
   },
+  
   emailConfirmation (token)  {
-    return  fetch(`http://sasha2235-001-site1.ftempurl.com/api/Auth/ConfirmEmail/${token}`, {
+    return  fetch(`http://sasha2235-001-site1.ftempurl.com/api/Auth/ConfirmEmail`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+      headers : {'Authorization': `Bearer ${token}`},
+      });
   },
 };

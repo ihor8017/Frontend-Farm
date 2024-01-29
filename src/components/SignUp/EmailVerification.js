@@ -1,27 +1,27 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { useNavigate, useParams} from 'react-router-dom';
-import { Context } from '../..';
-import { observer } from 'mobx-react-lite';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import { Store, setUserAuth } from '../../store/store';
+
 
 function EmailVerification() {
   const navigate = useNavigate();
-  const {store} = useContext(Context);
+
   const param = useParams();
-  console.log('param', param);
-  const [validUrl, setValidUrl] = useState();
+  console.log('param', param.token);
+  const [validUrl, setValidUrl] = useState('');
 
   if (param.token) {
-    store.emailConfirm(param.token);
+    Store.emailConfirm(param.token);
   }
   useEffect(()=>{
-    if (store.isAuth){
-      console.log('store.isAuth', store.isAuth);
+    if (Store.isAuth){
+      console.log('store.isAuth', Store.isAuth);
       setValidUrl(true);
     }
 
-  },[store.isAuth]);
+  },[Store.isAuth]);
 
+  setUserAuth.call(Store, false);
   // useEffect(() => {
 
   //   // console.log('token', token);
@@ -39,7 +39,7 @@ function EmailVerification() {
 
   return (
     <h1>Hello User
-      {/* {validUrl ? (
+      {validUrl ? (
         <div >
           <img  alt="success_img"  />
           <h1>Email verified successfully</h1>
@@ -49,10 +49,9 @@ function EmailVerification() {
         </div>
       ) : (
         <h1>404 Not Found</h1>
-      )} */}
+      )}
     </h1>
   );// or display a loading spinner
 }
 
-export default observer(EmailVerification);
-
+export default EmailVerification;
