@@ -1,27 +1,23 @@
-import React, {createContext} from 'react';
+
 //import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
+import './normalize.css';
+import './index.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
 import App from './app';
-import Store from './store/store';
-import './normalize.css'
-import './index.css'
+import { AuthProvider } from './hooks/AuthProvider';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-
-const store = new Store();
-export const Context = createContext({
-  store,
-});
-
-const root = createRoot(
-  document.getElementById('root'));
-root.render(
-
-  <Context.Provider value={
-    { store}
-  }
-  >
-    <App />
-  </Context.Provider>
-
-  ,
+ReactDOM.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root'),
 );
