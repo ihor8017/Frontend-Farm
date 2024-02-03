@@ -12,10 +12,11 @@ import RequireAuth from './services/RequireAuth';
 import Unauthorized from './components/Unauthorized/Unauthorized';
 
 
+
 const ROLES = {
-  Bayer: 201,
-  Seller: 1,
-  Farmer: 2
+  Bayer: '0',
+  Seller: '1',
+  Farmer: '2',
 }
 
 function App() {

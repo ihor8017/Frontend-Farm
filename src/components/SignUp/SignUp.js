@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Store, setUserAuth, setUser } from '../../store/store';
 import "./Auth.css";
+import { AuthService } from '../../services/AuthService';
+//import Input from '../Input/Input';
+import RadioInput from '../Input/RadioInput';
 
 
 function Registration() {
@@ -18,37 +21,196 @@ function Registration() {
     confirmPassword: '',
     role: 0,
   });
-  const [registrationStatus, setRegistrationStatus] = useState(false);
+  const [formError, setFormError] = useState({
+    name: 'Це поле не може бути пустим',
+    surname: 'Це поле не може бути пустим',
+    email: 'Це поле не може бути пустим',
+    password: 'Це поле не може бути пустим',
+    confirmPassword: 'Це поле не може бути пустим',
+  })
 
+  const radioInputs = [
+    {
+      id: "buyer",
+      name: "role",
+      type: "radio",
+      label: "Покупець",
+      role: 0,
+     checked: true,
+    },
+    {
+      id: "seller",
+      name: "role",
+      type: "radio",
+      label: "Продавець",
+      role: 1, 
+    },
+    {
+      id: "farmer",
+      name: "role",
+      type: "radio",
+      label: "Фермер",
+      role: 2, 
+    },
+  ]
+
+  const [role, setRole] = useState(0);
+  
+    const [email, setEmail] = useState('');
+    const [dirtyEmail, setDirtyEmail] = useState(false);
+    const [emailError, setEmailError] = useState('Це поле не може бути пустим');
+
+    const [name, setName] = useState('');
+    const [dirtyName, setDirtyName] = useState(false);
+    const [nameError, setNameError] = useState('Це поле не може бути пустим');
+
+    const [surname, setSurname] = useState('');
+    const [dirtySurname, setDirtySurname] = useState(false);
+    const [surnameError, setSurnameError] = useState('Це поле не може бути пустим');
+
+    const [password, setPwd] = useState('');
+    const [dirtyPwd, setDirtyPwd] = useState(false);
+    const [pwdError, setPwdError] = useState('Це поле не може бути пустим');
+
+    const [confirmPassword, setMatchPwd] = useState('');
+    const [dirtyConfirmPassword, setDirtyConfirmPassword] = useState(false);
+    const [matchError, setMatchError] = useState('Це поле не може бути пустим');
+
+  const [registrationStatus, setRegistrationStatus] = useState(false);
+  const [validForm, setValidForm] = useState(false);
+
+  useEffect(()=>{
+    if(emailError || nameError || surnameError || pwdError || matchError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true);
+    }
+  },[emailError, nameError, surnameError, pwdError, matchError])
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.email !== '' && input.password !== '' && input.surname !== '' && input.confirmPassword !== '' && input.name !== '') {
-      console.log('store.isAuth in Handle', Store.isAuth);
-      Store.register(input);
+    
+    if (validForm) {
+      //Store.register({role, email, surname, name, password, confirmPassword});
+      AuthService.registration({role, email, surname, name, password, confirmPassword})
+      .then( (response) =>{
+        if (response.ok){
+          console.log('Email sent successfully!', response.status);
+          setRegistrationStatus(true);
+        }
+      })
+      .catch((error) => {
+        if (!error?.response) {
+          console.log('No Server Response');
+        } else if (error.response?.status === 409) {
+          console.log('Email Taken');
+        } else {
+          console.log('Registration Failed');
+        }
+
+      });
       console.log(Store);
-    }
+      
+    } 
   };
 
+  const emailHandler= (e) => {
+    setEmail(e.target.value);
+    let regEmail =/^[a-zA-Z0-9_'+*/^&=?~{}\-](\.?[a-zA-Z0-9_'+*/^&=?~{}\-])*\@((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(\:\d{1,3})?)|(((([a-zA-Z0-9][a-zA-Z0-9\-]+[a-zA-Z0-9])|([a-zA-Z0-9]{1,2}))[\.]{1})+([a-zA-Z]{2,6})))$/;
+      if (!regEmail.test(String(e.target.value).toLowerCase()) ){
+        setEmailError('Email not valid!');
+        if (!e.target.value) {
+          setEmailError('Це поле не може бути пустим');
+        }
+      } else {
+        setEmailError('')
+      }
+  }
 
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-  useEffect(()=>{
-    if (Store.isAuth){
-      console.log('store.isAuth', Store.isAuth);
-      setRegistrationStatus(true);
-      navigate(from, { replace: true });
+  const surnameHandler= (e) => {
+    setSurname(e.target.value);
+    let reg =/^[А-Яа-яa-zA-Z]{2,16}$/;
+      if (!reg.test(String(e.target.value).toLowerCase()) ){
+        setSurnameError('Last Name not valid!');
+        if (!e.target.value) {
+          setSurnameError('Це поле не може бути пустим');
+        }
+      } else {
+        setSurnameError('')
+      }
+  }
+
+  const nameHandler= (e) => {
+    setName(e.target.value);
+    let reg =/^[А-Яа-яa-zA-Z]{2,16}$/;
+      if (!reg.test(String(e.target.value).toLowerCase()) ){
+        setNameError('Name not valid!');
+        if (!e.target.value) {
+          setNameError('Це поле не може бути пустим');
+        }
+      } else {
+        setNameError('')
+      }
+  }
+
+  const passwordHandler= (e) => {
+    setPwd(e.target.value);
+    let reg =/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+      if (!reg.test(e.target.value)){
+        setPwdError('Password not valid!');
+        if (!e.target.value) {
+          setPwdError('Це поле не може бути пустим');
+        }
+      } else {
+        setPwdError('')
+      }
+  }
+  const confirmPasswordHandler= (e) => {
+    setMatchPwd(e.target.value);
+      if (e.target.value && (e.target.value !== password)){
+        setMatchError('Password not match!');
+        if (!e.target.value) {
+          setMatchError('Це поле не може бути пустим');
+        }
+      } else {
+        setMatchError('')
+      }
+  }
+
+  const roleHandler = (e) => {
+    setRole(Number(e.target.value));
+    console.log('role', role);
+  }
+
+  const  handlerBlur = (e) =>{
+    switch (e.target.name) {
+      case 'email': 
+      setDirtyEmail(true); break;
+      case 'surname':
+        setDirtySurname(true); break;
+      case 'name':
+        setDirtyName(true); break;
+      case 'password':
+        setDirtyPwd(true); break;
+      case 'confirmPassword':
+        setDirtyConfirmPassword(true);
+        default: break;
     }
+  }
 
-  },[Store.isAuth]);
+  // useEffect(()=>{
+  //   if (Store.isAuth){
+  //     console.log('store.isAuth', Store.isAuth);
+  //     setRegistrationStatus(true);
+  //     navigate(from, { replace: true });
+  //   }
 
-  setUser.call(Store, {});
-  setUserAuth.call(Store, false);
+
+  // },[registrationStatus]);
+
+  // setUser.call(Store, {});
+  // setUserAuth.call(Store, false);
 
   return registrationStatus ? (
     <div>
@@ -93,135 +255,138 @@ function Registration() {
         <form className='auth-form' onSubmit={handleSubmit}>
           <h3 className='form-title'>Створіть акаунт</h3>
           <div className='form-radio'>
-            <div className='radio-item'>
-              <input
-                className='radio-button'
-                type='radio'
-                id='buyer'
-                name='role'
-                value='0'
-                defaultChecked
+            {radioInputs.map((element) => (
+              <RadioInput {...element} 
+              key ={element.id} 
+              onChange={roleHandler}
+              defaultChecked ={element.checked}
               />
-              <label className='radio-ladel' htmlFor='buyer'>
-								Покупець
-              </label>
-            </div>
-            <div className='radio-item'>
-              <input className='radio-button' type='radio' id='seller' name='role' value='1' />
-              <label className='radio-ladel' htmlFor='seller'>
-								Продавець
-              </label>
-            </div>
-            <div className='radio-item'>
-              <input className='radio-button' type='radio' id='farmer' name='role' value='2' />
-              <label className='radio-ladel' htmlFor='farmer'>
-								Фермер
-              </label>
-            </div>
+            ))}
           </div>
 
-          <article className='form-article'>
+          <div className='form-article'>
             <div
-              className='form-field
-            correct-field'
+              className={!dirtyEmail? "form-field" :
+              !emailError && email.length>1 ? "correct-field form-field":
+              "form-field uncorrect-field"}
             >
               <input
                 className='form-input-field'
-                onChange={handleInput}
+                onChange={emailHandler}
                 type='email'
                 id='email'
                 name='email'
+                value={email}
                 required
+                onBlur={handlerBlur}
               />
               <label className='form-label' htmlFor='email'>
 								e-mail<span>*</span>
               </label>
             </div>
-            <p className='field-error'>
+            {(dirtyEmail && emailError ) && <p className='field-error'>
               <img src='/img/svg/Error.svg' alt="This field cam't be empty" />
-              <span>Це поле не може бути пустим</span>
-            </p>
-          </article>
+              <span>{emailError}</span>
+            </p>}
+          </div>
 
-          <article className='form-article'>
-            <div className='form-field uncorrect-field'>
+          <div className='form-article'>
+            <div className={!dirtySurname? "form-field" :
+              !surnameError && surname.length>1 ? "correct-field form-field":
+              "form-field uncorrect-field"}>
               <input
                 className='form-input-field'
                 name='surname'
-                onChange={handleInput}
+                onChange={surnameHandler}
                 id='lastName'
+                value={surname}
+                onBlur={handlerBlur}
                 required
               />
               <label className='form-label' htmlFor='lastName'>
 								Прізвище<span>*</span>
               </label>
             </div>
-            <p className='field-error'>
+            {(dirtySurname && surnameError ) && <p className='field-error'>
               <img src='/img/svg/Error.svg' alt="This field cam't be empty" />
-              <span>Це поле не може бути пустим</span>
-            </p>
-          </article>
-          <article className='form-article'>
-            <div className='form-field'>
+              <span>{surnameError}</span>
+            </p>}
+          </div>
+
+          <div className='form-article'>
+            <div className={!dirtyName? "form-field" :
+              !nameError && name.length>1 ? "correct-field form-field":
+              "form-field uncorrect-field"}>
               <input
                 className='form-input-field'
                 name='name'
-                onChange={handleInput}
+                onChange={nameHandler}
                 id='name'
+                value={name}
+                onBlur={handlerBlur}
                 required
               />
               <label className='form-label' htmlFor='name'>
 								Ім'я<span>*</span>
               </label>
             </div>
-            <p className='field-error'>
+            {(dirtyName && nameError ) && <p className='field-error'>
               <img src='/img/svg/Error.svg' alt="This field cam't be empty" />
-              <span>Це поле не може бути пустим</span>
-            </p>
-          </article>
-          <article className='form-article'>
-            <div className='form-field uncorrect-field'>
+              <span>{nameError}</span>
+            </p>}
+          </div>
+          <div className='form-article'>
+            <div className={!dirtyPwd? "form-field" :
+              !pwdError && password.length>1 ? "correct-field form-field":
+              "form-field uncorrect-field"}>
               <input
                 className='form-input-field'
-                onChange={handleInput}
+                onChange={passwordHandler}
                 type='password'
                 id='password'
                 name='password'
+                value={password}
+                onBlur={handlerBlur}
                 required
               />
               <label className='form-label' htmlFor='password'>
 								Пароль<span>*</span>
               </label>
             </div>
-            <p className='field-error'>
+            {(dirtyPwd && pwdError) && <p className='field-error'>
               <img src='/img/svg/Error.svg' alt="This field cam't be empty" />
-              <span>Це поле не може бути пустим</span>
-            </p>
+              <span>{pwdError}</span>
+            </p>}
             <p className='form-password-description'>
 							Пароль має містити мінімум 8 символів (принаймні одна велика літера, одна мала літера,
 							1 цифра)
             </p>
-          </article>
-          <article className='form-article '>
-            <div className='form-field uncorrect-field'>
+            
+          </div>
+          <div className='form-article '>
+            <div className={!dirtyConfirmPassword? "form-field" :
+              !matchError && confirmPassword.length>1 ? "correct-field form-field":
+              "form-field uncorrect-field"}>
               <input
                 className='form-input-field'
-                onChange={handleInput}
+                onChange={confirmPasswordHandler}
                 type='password'
                 id='confirmPassword'
                 name='confirmPassword'
+                value={confirmPassword}
+                onBlur={handlerBlur}
                 required
-              />
+                              />
               <label className='form-label' htmlFor='confirmPassword'>
 								Підтвердіть пароль<span>*</span>
               </label>
             </div>
-            <p className='field-error'>
+            {(dirtyConfirmPassword && matchError ) && <p className='field-error'>
               <img src='/img/svg/Error.svg' alt="This field cam't be empty" />
-              <span>Це поле не може бути пустим</span>
-            </p>
-          </article>
-          <button className='form-submit' type='submit'>
+              <span>{matchError}</span>
+            </p>}
+          </div>
+          <button className='form-submit button' type='submit' disabled={!validForm}>
 						Продовжити
           </button>
         </form>
