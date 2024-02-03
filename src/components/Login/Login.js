@@ -21,27 +21,33 @@ function Login() {
     e.preventDefault();
     if (input.email !== '' && input.password !== '') {
       AuthService.login(input)
-      .then((response)=>response.json())
+      .then((response)=>{
+        if (!response.ok) {
+          throw new Error();
+        }
+        return response.json()})
       .then((data) => {
         localStorage.setItem('token', data?.token);
         const token = data?.token;
         //const roles = data?.role;
         const {email, password} = input;
-        const roles = [201];
+        const roles = ['0'];
         setAuth({email, password, token, roles});
-        console.log('roles[0]', roles[0]);
-        console.log('auth', auth);
+        setInput({});
         navigate(from, { replace: true });
-        //setInput({});
-         switch(roles[0]){
-        case 201: navigate( '/bayer');
-          break;
-        case 1: navigate('/seller');
-          break;
-        case 2: navigate('/farmer');
-        break;
-         default: navigate(from, { replace: true });;
-      }
+        
+        if (auth) {
+           switch(roles[0]){
+            case '0': navigate( '/bayer');
+              break;
+            case '1': navigate('/seller');
+              break;
+            case '2': navigate('/farmer');
+            break;
+            default: navigate(from, { replace: true });;
+        }
+        }
+        
       })
       .catch((error) => {
         if (!error?.response) {
@@ -78,7 +84,8 @@ function Login() {
             <img src="/img/svg/Logo.svg" alt="" />
           </div>
           <h3 className='form-title'>Авторизація</h3>
-          <article className='form-article'>
+          
+          <div className='form-article'>
             <div className='form-field'>
               <input
                 className='form-input-field'
@@ -91,8 +98,8 @@ function Login() {
 								e-mail
               </label>
             </div>
-          </article>
-          <article className='form-article'>
+          </div>
+          <div className='form-article'>
             <div className='form-field'>
               <input
                 className='form-input-field'
@@ -105,7 +112,7 @@ function Login() {
 								Пароль
               </label>
             </div>
-          </article>
+          </div>
 
           <NavLink className='forgot-password' to='/forgot-password'>
 						Забули пароль?

@@ -89,6 +89,8 @@
 	margin-bottom: 16px;
 	width: 95%;
 }
+
+
 .form-field {
 	position: relative;
 	/* display: flex;
@@ -149,12 +151,12 @@ justify-content: end; */
 	height: 52px;
 } */
 .field-error {
-	display: none;
+	display: block;
 	color: red;
 }
-.form-field.uncorrect-field + .field-error {
+/* .form-field.uncorrect-field + .field-error {
 	display: block;
-}
+} */
 .form-password-description {
 	display: block;
 	width: 95%;
@@ -163,19 +165,37 @@ justify-content: end; */
 	line-height: 150%; /* 18/12 */
 }
 
+.button {
+	background: #656565;
+	color: #fff;
+}
+
+.button:active {
+	background-color: #5538ee;
+}
+
+.button:disabled {
+	background-color: #e4e4e4;
+	color: #a5a8ba;
+	cursor: default;
+}
+
 .form-submit {
 	height: 40px;
-  width: 95%;
+  	width: 95%;
 	padding: 10px 48px;
 	margin-top: 16px;
-  margin-bottom: 16px;
+ 	margin-bottom: 16px;
 	border-radius: 8px;
 	background: #656565;
 	color: #fff;
 	font-size: 16px;
 	font-weight: 600;
-	line-height: 125%; /* 20/16 */
+	line-height: 125%;
+	cursor: pointer; /* 20/16 */
 }
+
+
 
 /* @ --- Successful registration */
 .registration-successful {
