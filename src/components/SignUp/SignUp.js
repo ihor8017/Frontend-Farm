@@ -78,6 +78,8 @@ function Registration() {
 
   const [registrationStatus, setRegistrationStatus] = useState(false);
   const [validForm, setValidForm] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const[visiblePwd, setVisiblePwd] = useState(false);
 
   useEffect(()=>{
     if(emailError || nameError || surnameError || pwdError || matchError) {
@@ -342,7 +344,7 @@ function Registration() {
               <input
                 className='form-input-field'
                 onChange={passwordHandler}
-                type='password'
+                type={visiblePwd? 'text' : 'password'}
                 id='password'
                 name='password'
                 value={password}
@@ -352,6 +354,10 @@ function Registration() {
               <label className='form-label' htmlFor='password'>
 								Пароль<span>*</span>
               </label>
+              <div className='show-password' type="button" onClick={()=>{setVisiblePwd(!visiblePwd)}}>
+                    {!visiblePwd?  <img src='/img/svg/Icon _ Eye.svg' alt='show password'/>
+                            : <img src='/img/svg/Icon _ Eye_Shown.svg' alt='hide password'/>}
+              </div>
             </div>
             {(dirtyPwd && pwdError) && <p className='field-error'>
               <img src='/img/svg/Error.svg' alt="This field cam't be empty" />
@@ -370,7 +376,7 @@ function Registration() {
               <input
                 className='form-input-field'
                 onChange={confirmPasswordHandler}
-                type='password'
+                type={visible? 'text' : 'password'}
                 id='confirmPassword'
                 name='confirmPassword'
                 value={confirmPassword}
@@ -380,6 +386,10 @@ function Registration() {
               <label className='form-label' htmlFor='confirmPassword'>
 								Підтвердіть пароль<span>*</span>
               </label>
+              <div className='show-password' type="button" onClick={()=>{setVisible(!visible)}}>
+                    {!visible?  <img src='/img/svg/Icon _ Eye.svg' alt='show password'/>
+                            : <img src='/img/svg/Icon _ Eye_Shown.svg' alt='hide password'/>}
+              </div>
             </div>
             {(dirtyConfirmPassword && matchError ) && <p className='field-error'>
               <img src='/img/svg/Error.svg' alt="This field cam't be empty" />

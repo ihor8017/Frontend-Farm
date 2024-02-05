@@ -1,5 +1,5 @@
 import {$api, API_URL} from '../http/index';
-
+import axios from 'axios';
 
 export const   AuthService = {
   login (data)  {
@@ -8,8 +8,18 @@ export const   AuthService = {
       headers: {
         'Content-Type': 'text/json',
       },
-      body: JSON.stringify(data),
+            body: JSON.stringify(data),
     });
+  },
+
+  loginAxios(data) {
+    return axios.put('http://sasha2235-001-site1.ftempurl.com/api/Auth/Login', JSON.stringify(data),
+    {
+      headers: {
+        'Content-Type': 'text/json',
+      },
+      
+    })
   },
 
   registration (data) {
