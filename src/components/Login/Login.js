@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import  useAuth  from '../../hooks/useAuth';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Store, setUser, setUserAuth } from '../../store/store';
 import{ AuthService} from '../../services/AuthService';
 
 
@@ -16,26 +15,29 @@ function Login() {
     email: '',
     password: '',
   });
+  const [err, setErr]= useState('');
+  const [visible, setVisible] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.email !== '' && input.password !== '') {
-      AuthService.login(input)
+      AuthService.loginAxios(input)
       .then((response)=>{
         if (!response.ok) {
-          throw new Error();
+          setErr(response.data.errore);
         }
-        return response.json()})
+        })
       .then((data) => {
-        localStorage.setItem('token', data?.token);
+        //localStorage.setItem('token', data?.token);
         const token = data?.token;
         //const roles = data?.role;
         const {email, password} = input;
         const roles = ['0'];
         setAuth({email, password, token, roles});
+        localStorage.setItem('user', JSON.stringify({email, password, token, roles}));
         setInput({});
         navigate(from, { replace: true });
-        
+        console.log('authorized', auth);
         if (auth) {
            switch(roles[0]){
             case '0': navigate( '/bayer');
@@ -57,7 +59,9 @@ function Login() {
         } else if (error.response?.status === 401) {
           console.log('Unauthorized');
         } else {
-          console.log('Login failed');
+          console.log('errr', error.response.data.error);
+          setErr(error.response.data.error);
+          e.target.reset();
         }
 
       });
@@ -104,15 +108,20 @@ function Login() {
               <input
                 className='form-input-field'
                 onChange={handleInput}
-                type='password'
+                type={visible? 'text' : 'password'}
                 id='password'
                 name='password'
               />
               <label className='form-label' htmlFor='password'>
 								Пароль
               </label>
+              <div className='show-password' type="button" onClick={()=>{setVisible(!visible)}}>
+                    {!visible?  <img src='/img/svg/Icon _ Eye.svg' alt='show password'/>
+                            : <img src='/img/svg/Icon _ Eye_Shown.svg' alt='hide password'/>}
+              </div>
             </div>
           </div>
+          {err && <div className='field-error'>{err}</div>}
 
           <NavLink className='forgot-password' to='/forgot-password'>
 						Забули пароль?
@@ -127,14 +136,8 @@ function Login() {
           <span>
             <NavLink to='/registration'> Sign up</NavLink>
           </span>
-          <NavLink className='forgot-password' to='/bayer'>
-						bayer
-          </NavLink>
-          <NavLink className='forgot-password' to='/farmer'>
-						farmer
-          </NavLink>
         </p>
-      </div>
+              </div>
     </div>
   );
 }

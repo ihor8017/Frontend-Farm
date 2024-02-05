@@ -72,7 +72,7 @@ export const Store = {
   },
 
   logOut() {
-    localStorage.removeItem('token');
+    localStorage.clear();
     setUser.call(Store,{});
   },
 };
