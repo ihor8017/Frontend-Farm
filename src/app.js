@@ -3,6 +3,9 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 import EmailVerification from './components/SignUp/EmailVerification';
 import Login from './components/Login/Login';
 import  Registration  from './components/SignUp/SignUp';
+import ForgotPassword from './components/FogotPassword/FogotPassword';
+import ResetPassword from './components/FogotPassword/ResetPassword';
+
 import Bayer from './components/Dashboard/Bayer';
 import Seller from './components/Dashboard/Seller';
 import Farmer from './components/Dashboard/Farmer';
@@ -44,6 +47,7 @@ function App() {
               <Route path="/main" element={<Main />} />
               <Route path="/registration" element={<Registration />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path ="/unauthorized" element={<Unauthorized />} />
               
                     {/* {protected routes} */}
@@ -60,6 +64,7 @@ function App() {
                   </Route>
              
               <Route path={`/ConfirmEmail/:token`} element={<EmailVerification/>} />
+              <Route path={`/ResetPassword/:token`} element={<ResetPassword/>} />
               {/* Other routes */}
               <Route path="*" element={<Missing />} />
               </Route>

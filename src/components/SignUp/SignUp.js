@@ -94,7 +94,6 @@ function Registration() {
     e.preventDefault();
     
     if (validForm) {
-      //Store.register({role, email, surname, name, password, confirmPassword});
       AuthService.registration({role, email, surname, name, password, confirmPassword})
       .then( (response) =>{
         if (response.ok){
@@ -112,7 +111,6 @@ function Registration() {
         }
 
       });
-      console.log(Store);
       
     } 
   };
@@ -182,7 +180,6 @@ function Registration() {
 
   const roleHandler = (e) => {
     setRole(Number(e.target.value));
-    console.log('role', role);
   }
 
   const  handlerBlur = (e) =>{
@@ -200,19 +197,6 @@ function Registration() {
         default: break;
     }
   }
-
-  // useEffect(()=>{
-  //   if (Store.isAuth){
-  //     console.log('store.isAuth', Store.isAuth);
-  //     setRegistrationStatus(true);
-  //     navigate(from, { replace: true });
-  //   }
-
-
-  // },[registrationStatus]);
-
-  // setUser.call(Store, {});
-  // setUserAuth.call(Store, false);
 
   return registrationStatus ? (
     <div>
