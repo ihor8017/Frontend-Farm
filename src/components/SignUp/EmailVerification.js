@@ -5,9 +5,7 @@ import { Store, setUserAuth } from '../../store/store';
 
 function EmailVerification() {
   const navigate = useNavigate();
-
   const param = useParams();
-  console.log('param', param.token);
   const [validUrl, setValidUrl] = useState('');
 
   if (param.token) {
@@ -22,20 +20,6 @@ function EmailVerification() {
   },[Store.isAuth]);
 
   setUserAuth.call(Store, false);
-  // useEffect(() => {
-
-  //   // console.log('token', token);
-
-  //   if (token) {
-
-  //     store.emailConfirm(token);
-  //     navigate('/login');
-
-  //     } //else {
-  //   //   console.error('Email verification token not found!');
-  //   //  // navigate('/verification-error');
-  //   // }
-  // }, [ location.search]);
 
   return (
     <h1>Hello User

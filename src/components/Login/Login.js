@@ -46,7 +46,7 @@ function Login() {
               break;
             case '2': navigate('/farmer');
             break;
-            default: navigate(from, { replace: true });;
+            default: navigate(from, { replace: true });
         }
         }
         
@@ -63,7 +63,6 @@ function Login() {
           setErr(error.response.data.error);
           e.target.reset();
         }
-
       });
     }
   };
@@ -123,7 +122,7 @@ function Login() {
           </div>
           {err && <div className='field-error'>{err}</div>}
 
-          <NavLink className='forgot-password' to='/forgot-password'>
+          <NavLink className='forgot-password' to='/forgotpassword'>
 						Забули пароль?
           </NavLink>
 
