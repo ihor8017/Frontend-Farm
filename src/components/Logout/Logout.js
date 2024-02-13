@@ -8,7 +8,9 @@ function Logout() {
         localStorage.clear();
     }
     return  (
-        <button type="button" onClick={handleOnClick}>Logout</button>
+        <button type="button" onClick={handleOnClick} className='button-icon button-icon--logout'>
+            <span className='visually-hidden'>Exit</span>
+        </button>
     )
 }
 

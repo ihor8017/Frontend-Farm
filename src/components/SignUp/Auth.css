@@ -1,3 +1,4 @@
+
 /* @ --- Registration page */
 
 .auth-title {
@@ -177,20 +178,6 @@ justify-content: end; */
 	line-height: 150%; /* 18/12 */
 }
 
-.button {
-	background: #656565;
-	color: #fff;
-}
-
-.button:active {
-	background-color: #5538ee;
-}
-
-.button:disabled {
-	background-color: #e4e4e4;
-	color: #a5a8ba;
-	cursor: default;
-}
 
 .form-submit {
 	height: 40px;

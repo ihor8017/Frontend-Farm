@@ -1,0 +1,24 @@
+.header {
+    display: flex;
+    padding: 17px 38px;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-navigation {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    min-width: 180px;
+}
+
+.header-navigation__item {
+    margin-left: 30px;
+}
+
+.header__logo img {
+    width: 28px;
+    height: 28px;
+}
