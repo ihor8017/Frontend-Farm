@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logout from '../Logout/Logout';
+import UserPage from '../../pages/UserPage';
 
 export default function Seller ()  {
   return (
@@ -9,6 +10,7 @@ export default function Seller ()  {
       <br></br>
       <NavLink to="/main">Main</NavLink>
       <br></br>
+      <UserPage/>
       <Logout/>
     </>
 

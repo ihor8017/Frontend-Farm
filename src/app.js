@@ -60,7 +60,11 @@ function App() {
                   </Route>
 
                   <Route element={<RequireAuth allowedRoles={[ROLES.Seller]} />}>
-                    <Route path="/seller" element={<Seller />} />
+                    <Route path="/seller" element={<Seller />} >
+                      <Route ></Route>
+                      <Route></Route>
+                      <Route></Route>
+                    </Route>
                   </Route>
              
               <Route path={`/ConfirmEmail/:token`} element={<EmailVerification/>} />

@@ -36,8 +36,11 @@ a {
   margin: -1px;
   padding: 0;
   overflow: hidden;
+
   white-space: nowrap;
+
   border: 0;
+
   clip: rect(0 0 0 0);
   clip-path: inset(100%);
 }
@@ -81,27 +84,10 @@ a {
   display: block;
   width: 32px;
   height: 32px;
-  background: none;
   background-color: #1F1F26;
-  mask-image: url('./img/nav/Icon_Bell.svg');
-  border: none;
-}
-
-.button-icon--notice {
   mask-image: url('./img/nav/Icon_person.svg');
-}
-
-.button-icon--logout {
-  mask-image: url('./img/nav/Icon_Arrow_Out.svg');
-}
-
-.button-icon:focus,
-.button-icon:active {
-  background-color: #5538ee;
-}
-
-.button-icon:disabled {
-  background-color: #a5a8ba;
+  border: none;
+  
 }
 
 .link {
