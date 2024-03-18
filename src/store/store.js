@@ -67,7 +67,7 @@ export const Store = {
         }
       })
       .catch( (error)=> {
-        console.log('Failed to verify email:');
+        console.log('Failed to verify email:', error);
       });
   },
 

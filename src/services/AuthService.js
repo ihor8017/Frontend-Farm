@@ -2,40 +2,54 @@ import {$api, API_URL} from '../http/index';
 import axios from 'axios';
 
 export const   AuthService = {
-  login (data)  {
-    return  fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Login', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'text/json',
-      },
-            body: JSON.stringify(data),
-    });
-  },
 
-  loginAxios(data) {
-    return axios.put('http://sasha2235-001-site1.ftempurl.com/api/Auth/Login', JSON.stringify(data),
+  login(data) {
+    return axios.get(`${API_URL}/Auth/Login`,
     {
-      headers: {
-        'Content-Type': 'text/json',
+      params: {
+        email: data.email,
+        password: data.password,
       },
+       headers: {
+        'Content-Type': 'text/json',
+       },
       
     })
   },
 
   registration (data) {
-    return fetch('http://sasha2235-001-site1.ftempurl.com/api/Auth/Register', {
-      method: 'POST',
+    return axios.post(`${API_URL}/Auth/Register`, JSON.stringify(data), {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
     });
   },
+
+  forgot (data) {
+    return axios.put(`${API_URL}/Auth/ForgotPassword`, JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  },
+
+  reset (data, token) {
+    return axios.put(`${API_URL}/Auth/ResetPassword`, JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  },
+
+
   
   emailConfirmation (token)  {
-    return  fetch(`http://sasha2235-001-site1.ftempurl.com/api/Auth/ConfirmEmail`, {
-      method: 'PUT',
-      headers : {'Authorization': `Bearer ${token}`},
+    return  axios(`${API_URL}/Auth/ConfirmEmail`, {
+      method: 'put',
+      headers : {
+        'Authorization': `Bearer ${token}`,
+       },
       });
   },
 };

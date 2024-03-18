@@ -34,12 +34,11 @@ function App() {
     const loggedInUser = localStorage.getItem("user");
     console.log('loggedInUser', loggedInUser );
     if (loggedInUser) {
-      
-      const {email, password, token, roles} = JSON.parse(loggedInUser);
-      setAuth({email, password, token, roles});
+      const {email, password, token, role, accountID} = JSON.parse(loggedInUser);
+      setAuth({email, password, token, role, accountID});
     }
 
-  },[]);
+  },[setAuth]);
   return ( 
           <Routes>
             <Route path='/' element={<Layout />} >

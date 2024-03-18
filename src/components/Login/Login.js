@@ -18,28 +18,28 @@ function Login() {
   const [err, setErr]= useState('');
   const [visible, setVisible] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.email !== '' && input.password !== '') {
-      AuthService.loginAxios(input)
-      .then((response)=>{
-        if (!response.ok) {
-          setErr(response.data.errore);
-        }
-        })
-      .then((data) => {
-        //localStorage.setItem('token', data?.token);
-        const token = data?.token;
-        //const roles = data?.role;
+
+    try {
+      const response = await AuthService.login(input);
+      if (!response.ok) {
+        setErr(response.data.error);
+      }
+      localStorage.setItem('token', response.data?.token);
+        const token = response.data?.token;
+        const roles = response.data?.role;
+        const accountID = response.data?.accountId;
+        const role = roles.toString();
         const {email, password} = input;
-        const roles = ['0'];
-        setAuth({email, password, token, roles});
-        localStorage.setItem('user', JSON.stringify({email, password, token, roles}));
+        setAuth({email, password, token, role, accountID});
+        localStorage.setItem('user', JSON.stringify({email, password, token, role, accountID}));
         setInput({});
         navigate(from, { replace: true });
         console.log('authorized', auth);
         if (auth) {
-           switch(roles[0]){
+           switch(role){
             case '0': navigate( '/bayer');
               break;
             case '1': navigate('/seller');
@@ -49,21 +49,21 @@ function Login() {
             default: navigate(from, { replace: true });
         }
         }
-        
-      })
-      .catch((error) => {
-        if (!error?.response) {
-          console.log('No Server Response');
-        } else if (error.response?.status === 400) {
-          console.log('Missing Username or Password');
-        } else if (error.response?.status === 401) {
-          console.log('Unauthorized');
-        } else {
-          console.log('errr', error.response.data.error);
-          setErr(error.response.data.error);
-          e.target.reset();
-        }
-      });
+      
+    } catch (error) {
+      if (!error?.response) {
+        console.log('No Server Response');
+      } else if (error.response?.status === 400) {
+        console.log('Missing Username or Password');
+      } else if (error.response?.status === 401) {
+        console.log('Unauthorized');
+      } else {
+        console.log('err', error.response.data.error);
+        setErr(error?.response.data.error);
+        e.target.reset();
+      }
+    }
+
     }
   };
 
@@ -76,7 +76,15 @@ function Login() {
   };
 
   return (
-    <div>
+    auth.role? (
+      <>
+      <p>You are logged in!</p>
+      <NavLink to="/main">go main</NavLink>
+      </>
+    
+    )
+    :
+    (<div>
       <h2 className='auth-title'>Login</h2>
       <button type='button' className='auth-form-close'>
         <img src='/img/svg/Cross.svg' alt='Close auth' />
@@ -137,7 +145,7 @@ function Login() {
           </span>
         </p>
               </div>
-    </div>
+    </div>)
   );
 }
 

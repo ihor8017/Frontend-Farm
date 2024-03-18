@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
+import { AuthService } from "../../services/AuthService";
 
 export default function ForgotPassword() {
 
@@ -11,17 +11,14 @@ export default function ForgotPassword() {
         e.preventDefault();
         if (email !== "") {
             try {
-                const response = await axios.put('http://sasha2235-001-site1.ftempurl.com/api/Auth/ForgotPassword',JSON.stringify({email}),
-                {
-                  headers: {
-                    'Content-Type': 'text/json',
-                  },
-                  
-                } );
+                const response = await AuthService.forgot({"email": email});
+                if (!response.ok) {
+                  setErr(response.data.error);
+                }
                 setValidReset(true);
                 console.log('validReset', response);
                       } catch (error) {
-              console.log(error?.response.data.error)
+              console.log(error?.response.data.error);
               setErr(error?.response.data.error);
             }
            

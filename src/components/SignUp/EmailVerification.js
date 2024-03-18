@@ -1,28 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import { Store, setUserAuth } from '../../store/store';
+import {Link, useParams} from 'react-router-dom';
+import { AuthService } from '../../services/AuthService';
 
 
-function EmailVerification() {
-  const navigate = useNavigate();
+const  EmailVerification =()  => {
   const param = useParams();
-  const [validUrl, setValidUrl] = useState('');
-
+  const [validUrl, setValidUrl] = useState(false);
+  const [error, setError] = useState('');
+ const fetchToken = async () => {
   if (param.token) {
-    Store.emailConfirm(param.token);
-  }
-  useEffect(()=>{
-    if (Store.isAuth){
-      console.log('store.isAuth', Store.isAuth);
+   
+    try {
+      const response = await AuthService.emailConfirmation(param.token);
+      if (!response.ok) {
+        setError('Failed to confirm, response status from server:', response.status);
+      }
       setValidUrl(true);
+
+    } catch (err) {
+      console.log(err)
+      setError(err.message)
     }
+  }
+ }
+  
+  useEffect(()=>{
+      fetchToken();
 
-  },[Store.isAuth]);
+  },[param.token]);
 
-  setUserAuth.call(Store, false);
 
   return (
-    <h1>Hello User
+    <>
+    <h1>Hello User</h1>
       {validUrl ? (
         <div >
           <img  alt="success_img"  />
@@ -32,9 +42,15 @@ function EmailVerification() {
           </Link>
         </div>
       ) : (
-        <h1>404 Not Found</h1>
+        <>
+                <h1>404 Not Found</h1>
+                {error && <p className='field-error'>{error}</p>}
+        </>
+
       )}
-    </h1>
+    </>
+    
+    
   );// or display a loading spinner
 }
 

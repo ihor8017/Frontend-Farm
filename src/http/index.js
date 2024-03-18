@@ -1,5 +1,5 @@
 import axios from 'axios';
-export const API_URL = 'http://sasha2235-001-site1.ftempurl.com/api';
+export const API_URL = 'https://oleksandrsy.bsite.net/api';
 
 
 export const $api = axios.create({
