@@ -13,14 +13,6 @@ function Registration() {
   const from = location.state?.from?.pathname || '/';
   const navigate = useNavigate();
 
-  const [input, setInput] = useState({
-    name: '',
-    surname: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 0,
-  });
   const [formError, setFormError] = useState({
     name: 'Це поле не може бути пустим',
     surname: 'Це поле не може бути пустим',
@@ -81,6 +73,8 @@ function Registration() {
   const [visible, setVisible] = useState(false);
   const[visiblePwd, setVisiblePwd] = useState(false);
 
+  const [err, setErr]= useState('');
+
   useEffect(()=>{
     if(emailError || nameError || surnameError || pwdError || matchError) {
       setValidForm(false)
@@ -96,10 +90,12 @@ function Registration() {
     if (validForm) {
       AuthService.registration({role, email, surname, name, password, confirmPassword})
       .then( (response) =>{
-        if (response.ok){
-          console.log('Email sent successfully!', response.status);
-          setRegistrationStatus(true);
+       
+        if (!response.ok){
+          setErr(response?.data.error);
         }
+        console.log('Email sent successfully!', response.status);
+        setRegistrationStatus(true);
       })
       .catch((error) => {
         if (!error?.response) {

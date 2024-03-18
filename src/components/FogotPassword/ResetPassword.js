@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, NavLink} from "react-router-dom"
+import { AuthService } from "../../services/AuthService";
 
 export default function ResetPassword () {
     const navigate = useNavigate();
@@ -54,29 +54,26 @@ export default function ResetPassword () {
           setMatchError('')
         }
     }
-  
     const handleSubmit = async (e) => {
       e.preventDefault();
       if (params.token) {
         
             try {
-              const response = await axios.put('http://sasha2235-001-site1.ftempurl.com/api/Auth/ResetPassword',
-              JSON.stringify({password, confirmPassword}), 
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                
-              });
+              const response = await AuthService.reset({
+                "password": password,
+                "confirmPassword": confirmPassword}, params.token);
+                if (!response.ok) {
+                  setErr('Failed to confirm, response status from server:', response.status);
+                }
               setRegistrationStatus(true);
             } catch (error) {
-              console.log(error?.response.data.error)
+              console.log(error?.response.data.error);
               setErr(error?.response.data.error);
             }
         
      }
-    } 
-
+    };
+  
     const  handlerBlur = (e) =>{
       switch (e.target.name) {
         case 'password':
